@@ -4,6 +4,7 @@ import psycopg2
 import pandas as pd
 from sql_queries import *
 
+#Code tested in etl.ipynb before its creation.
 
 def process_song_file(cur, filepath):
     # open song file
