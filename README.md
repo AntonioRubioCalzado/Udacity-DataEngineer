@@ -46,9 +46,12 @@ On this part we define all the sql queries invoked by each module of the code. F
 
 This script create Sparkify database, connects to it and drops and create the tables defined on the previous section.
 
+<<<<<<< HEAD
 ##### (Optional): Jupyter Notebook ETL.
 
 This module has been coded to check etl commands and steps that will be productivized in `etl.py` script (next step). There, every step can be checked and analyzed.
+=======
+>>>>>>> ba3bc0f3a26804de541ebb3b6114b3be6138b3af
 ##### 4.3. `etl.py`.
 
 This module has almost all the logic of the processed. It reads the JSON files of songs and logs to create each of the tables, processed the different files to create every single table and insert them on its corresponding Postgres table.
@@ -56,4 +59,7 @@ This module has almost all the logic of the processed. It reads the JSON files o
 ##### 4.4. `test.ipynb`. 
 
 It is a Jupyter notebook to check if the insetion of the previous script has been properly made.
+<<<<<<< HEAD
  
+=======
+>>>>>>> ba3bc0f3a26804de541ebb3b6114b3be6138b3af
