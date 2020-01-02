@@ -33,6 +33,10 @@ The model defined with the previous data is a Star Model composed of the followi
 | artist | Dimension | Artists in music database | artist_id, name, location, latitude, longitude | artist_id |
 | time | Dimension | Timestamps of records in songplays broken down into specific unit | start_time, hour, day, week, month, year, weekday | start_time |
 
+Graphically, the design of the database is the following:
+
+![image info](./images/database.png)
+
 
 ### 4. Project Structure.
 
@@ -46,13 +50,24 @@ On this part we define all the sql queries invoked by each module of the code. F
 
 This script create Sparkify database, connects to it and drops and create the tables defined on the previous section.
 
-##### (Optional): Jupyter Notebook ETL.
-
-This module has been coded to check etl commands and steps that will be productivized in `etl.py` script (next step). There, every step can be checked and analyzed.
-
 ##### 4.3. `etl.py`.
 
 This module has almost all the logic of the processed. It reads the JSON files of songs and logs to create each of the tables, processed the different files to create every single table and insert them on its corresponding Postgres table.
 
 ##### 4.4. `test.ipynb`. 
 
+It is a Jupyter notebook to check if the insetion of the previous script has been properly made.
+
+### 5. Execution order of python scripts.
+
+First of all, the queries in *sql_queries.py* must be completed. After that, go to CLI and type:
+
+`>> python create_tables.py`
+
+This command will execute this script and, once it's done, return to CLI and type:
+
+`>> python etl.py`
+
+to execute the etl.py script that extrat the data, transforms it properly and load it into the Postgres tables.
+
+The *.ipynb* files are run via jupyter notebook: *etl.ipynb* must be run after having processed the create_tables.py script and *test.ipynb* should be run the last one, to check everything works as it should.
