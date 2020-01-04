@@ -17,8 +17,8 @@ The model defined with the previous data is a Star Model composed of the followi
 | TABLE | DESCRIPTION | FIELDS | PRIMARY KEY |
 |----------------------------------|----------------------------------------------------------|---------------------------------------------------------------------|--------------------------------------------------------------------|
 | session_history | Information of artists and songs of a particular session | artist, song, sessionId, itemInSession, firstName, lastName, userId | sessionId (Partition Key), itemInSession (Clustering Key) |
-| song_for_user_in_session_history | Information of songs for a particular user | user_id, first_name, last_name, gender, level | userId, sessionId (Partition Key), itemInSession (Clustering Key)| |
-| user_for_song_in_session_history | Information of users for a particular song | firstName, lastName, song_id, userId | song (Partition Key), userId (Clustering Key) |
+| song_for_user | Information of songs for a particular user | user_id, first_name, last_name, gender, level | userId, sessionId (Partition Key), itemInSession (Clustering Key)| |
+| user_for_song| Information of users for a particular song | firstName, lastName, song_id, userId | song (Partition Key), userId (Clustering Key) |
 
 ### 4. Execution order of the code.
 
