@@ -27,6 +27,7 @@ def delete_redshift_cluster(cluster_identifier, access_key, secret_key):
     cluster_status = cluster_properties["ClusterStatus"]
     print (cluster_status)
 
+
     
 def delete_iam_role(iam_identifier, access_key, secret_key): 
     """ 
