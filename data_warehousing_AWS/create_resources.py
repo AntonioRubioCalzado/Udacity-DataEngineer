@@ -45,19 +45,27 @@ def create_redshift_iam_role(iam_role_name, access_key, secret_key):
                                   Description='Allows Redshift clusters to call AWS services')
     
     except Exception as e:
-        print(e)
+        print(f"Exception produced: {e}")
         
     # Once the role is created, we can attach a predefined policy to give this role read permissions on S3 buckets.
     iam.attach_role_policy(RoleName=iam_role_name, 
                            PolicyArn='arn:aws:iam::aws:policy/AmazonS3ReadOnlyAccess')
     
-def create_redshift_cluster(clusterType, NumberOfNodes, NodeType, ClusterIdentifier, DBName, MasterUsername,
-                            MasterUserPassword, Port, roleArns, access_key, secret_key):
+def create_redshift_cluster(cluster_type, number_of_nodes, node_type, cluster_identifier, db_name, master_username,
+                            master_user_password, port, role_arn, access_key, secret_key):
     """ 
         This function instanciates de SDK Redshift Client and creates the specified cluster after authentication. 
   
-        Parameters: 
+        Parameters:
+            cluster_type: Type of Redshift cluster.
+            number_of_nodes: Number of nodes composing the Redhift_node
+            node_type: Type of EC2 instances underlying the Redshift cluster.
             cluster_identifier: Identificator of the Redshift cluster that is going to be created.
+            db_name: Name of the database that is going to be deployed in the Redshift cluster.
+            master_username: Name of the master user of the database.
+            master_user_password: Password of the user master_username.
+            port: Access port in the cluster to the database.
+            role_arn: Identifier of the Redshift Role with S3OnlyRead policy.
             access_key: Authentication parameter. AWS access key id of the user.
             secret_key: Authentication parameter. AWS secret access key id of the user.
     """
@@ -67,28 +75,28 @@ def create_redshift_cluster(clusterType, NumberOfNodes, NodeType, ClusterIdentif
     
     redshift = boto3.client('redshift',  region_name='us-west-2', aws_access_key_id=access_key, aws_secret_access_key=secret_key)
     try:
-        response = redshift.create_cluster(ClusterType=clusterType,
-                                           NumberOfNodes=int(NumberOfNodes),
-                                           NodeType=NodeType,
-                                           ClusterIdentifier=ClusterIdentifier,
-                                           DBName=DBName,
-                                           MasterUsername=MasterUsername,
-                                           MasterUserPassword=MasterUserPassword,
-                                           Port=int(Port),
-                                           IamRoles=[roleArns]
+        response = redshift.create_cluster(ClusterType=cluster_type,
+                                           NumberOfNodes=int(number_of_nodes),
+                                           NodeType=node_type,
+                                           ClusterIdentifier=cluster_identifier,
+                                           DBName=db_name,
+                                           MasterUsername=master_username,
+                                           MasterUserPassword=master_user_password,
+                                           Port=int(port),
+                                           IamRoles=[role_arn]
                                           )
            
     except Exception as e:
         print(e)
         
-    cluster_properties = redshift.describe_clusters(ClusterIdentifier=ClusterIdentifier)['Clusters'][0]
+    cluster_properties = redshift.describe_clusters(ClusterIdentifier=cluster_identifier)['Clusters'][0]
     cluster_status = cluster_properties["ClusterStatus"]
     
     # Now we wait until the cluster is completely created and available.
     
     while cluster_status != "available":
         time.sleep(25.0)
-        cluster_properties = redshift.describe_clusters(ClusterIdentifier=ClusterIdentifier)['Clusters'][0]
+        cluster_properties = redshift.describe_clusters(ClusterIdentifier=cluster_identifier)['Clusters'][0]
         cluster_status = cluster_properties["ClusterStatus"]
     
     print(f"Cluster Status: {cluster_status}")
@@ -101,11 +109,11 @@ def create_redshift_cluster(clusterType, NumberOfNodes, NodeType, ClusterIdentif
         defaultSg = list(vpc.security_groups.all())[0]
     
         defaultSg.authorize_ingress(
-            GroupName=defaultSg.group_name ,  # TODO: fill out
-            CidrIp='0.0.0.0/0',  # TODO: fill out
-            IpProtocol='TCP',  # TODO: fill out
-            FromPort=int(Port),
-            ToPort=int(Port)
+            GroupName=defaultSg.group_name,
+            CidrIp='0.0.0.0/0', 
+            IpProtocol='TCP',
+            FromPort=int(port),
+            ToPort=int(port)
         )
     except Exception as e:
         print(e)

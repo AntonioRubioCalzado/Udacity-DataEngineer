@@ -30,10 +30,12 @@ def delete_redshift_cluster(cluster_identifier, access_key, secret_key):
     
     while cluster_status == "deleting":
         time.sleep(25.0)
-        cluster_properties = redshift.describe_clusters(ClusterIdentifier=cluster_identifier)['Clusters'][0]
-        cluster_status = cluster_properties["ClusterStatus"]
-    
-    print(f"Cluster Status: Deleted")
+        try:
+            cluster_properties = redshift.describe_clusters(ClusterIdentifier=cluster_identifier)['Clusters'][0]
+            cluster_status = cluster_properties["ClusterStatus"]
+        except:
+            print(f"Cluster Status: Deleted")
+            pass
     
 def delete_iam_role(iam_identifier, access_key, secret_key): 
     """ 
