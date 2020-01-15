@@ -1,24 +1,30 @@
 import configparser
 import psycopg2
 import boto3
-from sql_queries import copy_table_queries, insert_table_queries
+from sql_queries import analytics_queries
 
 
-def load_staging_tables(cur, conn):
-    for query in copy_table_queries:
+def analytics_tables(cur, conn):
+    """
+    Function that iterates over the list analytics_queries and run those queries to performe analytics.
+    """
+    for query in analytics_queries:
+
+        print('Running:' + query)
         cur.execute(query)
-        conn.commit()
-    print("Tables loaded.")
+        results = cur.fetchall()
 
-
-def insert_tables(cur, conn):
-    for query in insert_table_queries:
-        cur.execute(query)
-        conn.commit()
-    print("Data inserted in every table.")
-
-
+        for row in results:
+            print("Output")
+            print(row)
+            
 def main():
+    """
+    Parses the dwh.cfg configuration and get the Redshift Cluster Endpoint.
+    Authenticates in the specified database in the Redshift cluster.
+    Apply the analytics function.
+    """
+        
     config = configparser.ConfigParser()
     config.read('dwh.cfg')
     
@@ -43,8 +49,7 @@ def main():
                             """)   
     cur = conn.cursor()
     
-    load_staging_tables(cur, conn)
-    insert_tables(cur, conn)
+    analytics_tables(cur, conn)
 
     conn.close()
 
