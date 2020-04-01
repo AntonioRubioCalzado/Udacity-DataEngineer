@@ -1,0 +1,17 @@
+INFO | 30-Mar-20 14:35:13 | -----------------------------------------------------
+INFO | 30-Mar-20 14:35:13 | Start of etl.py script
+INFO | 30-Mar-20 14:35:13 | -----------------------------------------------------
+INFO | 30-Mar-20 14:35:28 | Spark session created
+INFO | 30-Mar-20 14:35:40 | I94 data of January and lookups have been loaded into dataframes
+INFO | 30-Mar-20 14:35:40 | Only useful columns of I94 dataframe selected
+INFO | 30-Mar-20 14:35:41 | Integer columns of I94 dataframe casted
+INFO | 30-Mar-20 14:35:41 | Date columns of I94 dataframe casted
+INFO | 30-Mar-20 14:35:42 | Lookup columns joined and duplicates dropped.
+INFO | 30-Mar-20 14:35:42 | Date Dimension built
+INFO | 30-Mar-20 14:35:42 | I94 data and Date dimension loaded into AWS S3 bucket
+INFO | 30-Mar-20 14:35:43 | Temperatures of different US states and countries saved into S3 bucket
+INFO | 30-Mar-20 14:35:44 | Airport Data saved into S3 bucket
+INFO | 30-Mar-20 14:35:49 | Demographic data saved into S3 bucket
+INFO | 30-Mar-20 14:35:49 | -----------------------------------------------------
+INFO | 30-Mar-20 14:35:49 | End of etl.py script
+INFO | 30-Mar-20 14:35:49 | -----------------------------------------------------
